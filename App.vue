@@ -2,7 +2,7 @@
   <div class="app">
     <h1>CRUD de Usuarios</h1>
 
-    <!-- Formulario para agregar/editar -->
+  
     <form @submit.prevent="guardarUsuario">
       <input v-model="formulario.name" placeholder="Nombre" required>
       <input v-model="formulario.username" placeholder="Username" required>
@@ -12,7 +12,6 @@
       <button v-if="editando" @click="cancelarEdicion">Cancelar</button>
     </form>
 
-    <!-- Tabla de usuarios -->
     <table v-if="!cargando">
       <thead>
         <tr>
@@ -57,7 +56,6 @@ export default {
     }
   },
   async created() {
-    // Obtener usuarios de la API
     const response = await fetch('https://jsonplaceholder.typicode.com/users');
     this.usuarios = await response.json();
     this.cargando = false;
@@ -65,11 +63,9 @@ export default {
   methods: {
     guardarUsuario() {
       if (this.editando) {
-        // Actualizar usuario existente
         const index = this.usuarios.findIndex(u => u.id === this.formulario.id);
         this.usuarios[index] = { ...this.formulario };
       } else {
-        // Agregar nuevo usuario (ID temporal)
         this.usuarios.unshift({
           ...this.formulario,
           id: Math.max(...this.usuarios.map(u => u.id), 0) + 1
@@ -147,7 +143,6 @@ h1::after {
   background: var(--primary);
 }
 
-/* Formulario */
 form {
   background: var(--background);
   padding: 1.5rem;
@@ -181,7 +176,6 @@ input:focus {
   box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
 }
 
-/* Botones */
 button {
   padding: 0.8rem 1.5rem;
   border: none;
@@ -210,7 +204,6 @@ button:not([type="submit"]):hover {
   background-color: #e2e6ea;
 }
 
-/* Tabla */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -243,7 +236,6 @@ tr:hover {
   background-color: #f8fafc;
 }
 
-/* Botones de acción */
 .actions {
   display: flex;
   gap: 0.5rem;
@@ -274,7 +266,6 @@ tr:hover {
   background-color: #ffc9d2;
 }
 
-/* Loading */
 .loading {
   text-align: center;
   padding: 2rem;
@@ -282,7 +273,6 @@ tr:hover {
   font-size: 1.1rem;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   form {
     grid-template-columns: 1fr;
